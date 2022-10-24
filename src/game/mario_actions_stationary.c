@@ -1021,6 +1021,14 @@ s32 act_ground_pound_land(struct MarioState *m) {
         return set_mario_action(m, ACT_BUTT_SLIDE, 0);
     }
 
+    //Do a double jump when player presses jump button
+    if (m->input & INPUT_A_PRESSED) {
+        set_mario_action(m, ACT_DOUBLE_JUMP, 0); //Set state to DOUBLE_JUMP
+        m->vel[1] = m->vel[1] * 1.25f; // Add upward momentum to jump - Y Axis 
+
+        return FALSE;
+    }
+
     landing_step(m, MARIO_ANIM_GROUND_POUND_LANDING, ACT_BUTT_SLIDE_STOP);
     return FALSE;
 }

@@ -635,6 +635,7 @@ s32 act_long_jump(struct MarioState *m) {
         m->actionState = 1;
     }
 
+    //Ground pound while doing long jump
     if (m->input & INPUT_Z_PRESSED) {
         set_mario_action(m, ACT_GROUND_POUND, 0);
     }
@@ -913,6 +914,15 @@ s32 act_steep_jump(struct MarioState *m) {
 s32 act_ground_pound(struct MarioState *m) {
     u32 stepResult;
     f32 yOffset;
+
+    //Ground pound dive
+    if(m->input & INPUT_B_PRESSED) {
+        set_mario_action(m, ACT_DIVE, 0); //Set Mario State to Dive
+        m->vel[1] = 30.0f; //Set velocity - [0] is X, [1] is Y, [2] is Z
+        m->forwardVel = 40.0f; //Set forward velocity - affects X and Z velocity
+
+        return FALSE; //Return early, so that other numbers won't affect the dive move velocity 
+    }
 
     play_sound_if_no_flag(m, SOUND_ACTION_THROW, MARIO_ACTION_SOUND_PLAYED);
 
